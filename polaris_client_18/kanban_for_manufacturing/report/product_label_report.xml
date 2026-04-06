@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Paperformat for Picking Product Label report -->
+        <record id="paperformat_picking_product_label_report" model="report.paperformat">
+            <field name="name">DYMO 30334</field>
+            <field name="format">custom</field>
+            <field name="page_height">31</field>
+            <field name="page_width">57</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">96</field>
+        </record>
+        <record id="report_picking_product_label" model="ir.actions.report">
+            <field name="name">Products Labels</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">kanban_for_manufacturing.report_picking_productlabel</field>
+            <field name="report_file">kanban_for_manufacturing.report_picking_productlabel</field>
+            <field name="binding_model_id" ref="stock.model_stock_picking" />
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_picking_product_label_report" />
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <!--Kiosk Screen-->
+    <t t-name="kanban_scan.MrpReorderingKanban">
+        <div class="container">
+            <div class="row">
+                <!--Kiosk Container-->
+                <div class="o_kfm_krr_kiosk_mode_container mx-auto">
+                    <!--Warning when Barcode Unmatched-->
+                    <div class="row mx-auto" id="barcode_unmatched" t-if="state.showBarcodeUnmatched">
+                        <div class="alert alert-danger">
+                            The scanned barcode is not a valid Barcode. Please check the barcode before scanning again.
+                        </div>
+                    </div>
+                    <!--Warning When Internal Transfer not set-->
+                    <div class="row mx-auto" id="not_internal_transfer" t-if="state.showNotInternalTransfer">
+                        <div class="alert alert-danger">
+                            This Kanban Card is set up for Internal Goods Movements, but no Internal Transfer Type 
+                            has been specified. Please set the Internal Transfer Type for Kanban on the Kanban tab of 
+                            the relevant Warehouse before attempting to process this Kanban Card again.
+                        </div>
+                    </div>
+                    <!--Warning when Location not set-->
+                    <div class="row mx-auto" id="location_error" t-if="state.showLocationError">
+                        <div class="alert alert-danger">
+                            The move lines are not in a consistent states: they are doing an intercompany in a single step while they should go through the intercompany transit location.
+                        </div>
+                        <button type="button" id="picking_button" class="btn btn-primary">Open</button>
+                    </div>
+                    <!--MRP, Inter-Transfer, Interal Warehouse Created-->
+                    <div class="row mx-auto" id="mrp_created" t-if="state.showMrpCreatedData and state.showNotInternalTransfer != true">
+                        <div class="col-xs-12 alert alert-success mx-auto">
+                            Created Successfully
+                            <div id="open_manufacturing_data" t-if="state.showMrpID" t-on-click="openManufacturingData" t-att-data-id="state.mrpOrderId">
+                                <span id="mrp_order">
+                                    <b>Click here to view Manufacturing Order</b>
+                                    <span id="manuf_order_id" t-esc="state.mrpOrderName"/>
+                                </span>
+                            </div>
+                            <div id="open_internal_transfer" t-if="state.showInternalTransferId" t-on-click="openInternalTransfer" t-att-data-id="state.internalTransferId">
+                                <span id="internal" t-if="state.internalTransferId">
+                                    <b>Click here to view Internal Transfer</b>
+                                    <span id="internal_transfer_id" t-esc="state.internalTransferName"/>
+                                </span>
+                            </div>
+                            <div id="open_pick_order" t-if="state.showpickOrderId" t-on-click="openpickOrder" t-att-data-id="state.pickOrderId">
+                                <span id="pick">
+                                    <b>Click here to view </b>
+                                    <span id="pick_order_id" t-esc="state.pickOrderName"/>
+                                </span>
+                            </div>
+                            <div id="open_delivery_order" t-if="state.showDeliveryOrderId" t-on-click="openDeliveryOrder" t-att-data-id="state.deliveryOrderId">
+                                <span id="delivery">
+                                    <b>Click here to view </b>
+                                    <span id="delivery_order_id" t-esc="state.deliveryOrderName"/>
+                                </span>
+                            </div>
+                            <div id="open_receipt_data" t-if="state.showReceiptId" t-on-click="openReceiptData" t-att-data-id="state.receiptId">
+                                <span id="receipt">
+                                    <b>Click here to view </b>
+                                    <span id="receipt_id" t-esc="state.receiptName" />
+                                </span>
+                            </div>
+                            <div id="open_putaway_order" t-if="state.showPutawayId" t-on-click="openPutawayOrder" t-att-data-id="state.putawayID">
+                                <span id="putaway">
+                                    <b>Click here to view </b>
+                                    <span id="putaway_order_id" t-esc="state.putawayName"/>
+                                </span>
+                            </div>
+                            <div id="open_receipt_data" t-if="state.showPurchaseId" t-on-click="openPurchaseData" t-att-data-id="state.purchaseId">
+                                <span id="rfq_purchase">
+                                    <b>Click here to view RFQ Purchase</b>
+                                    <span id="purchase_id" t-esc="state.purchaseName"/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mx-auto" id="receipt_val">
+                        <span id="receipt_validate" t-if="state.showReceiptVal">
+                            <div class="col-xs-12 alert alert-success mx-auto">
+                                <div id="open_stock_receipt_data" t-on-click="openStockReceipt">
+                                    <b>Click here to view Validate Receipt</b>
+                                    <b><span id="stock_receipt" t-esc="state.stockReceiptName"></span></b>
+                                </div>
+                            </div>
+                        </span>
+                        <div class="row" id="receipt_not_validate" t-if="state.showReceiptNotValidate">
+                            <div class="alert alert-danger">
+                                You can not validate receipt which is in done or cancel state
+                            </div>
+                        </div>
+                    </div>
+                    <!--RFQ Created-->
+                     <div class="row mx-auto" id="rfq_created" t-if="state.showRFQCreated">
+                        <div class="col-xs-12 alert alert-success mx-auto">
+                            RFQ created successfully
+                            <div id="open_purchase_order_success" t-on-click="openPurchaseOrder">
+                                <b><span t-esc="state.createPurchaseId"></span></b>
+                            </div>
+                        </div>
+                    </div>
+                    <!--RFQ Updated-->
+                    <div class="row mx-auto" id="rfq_updated" t-if="state.showRFQUpdated">
+                        <div class="col-xs-12 alert alert-success mx-auto">
+                            RFQ updated successfully
+                            <div id="open_purchase_order_success" t-on-click="openPurchaseOrder">
+                                <b><span t-esc="state.updatePurchaseId"></span></b>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kisk Screen-->
+                    <div class="o_kfm_krr_kiosk_mode mx-auto" t-if="!state.showScankioskMode">
+                        <h1>Scan Barcode</h1>
+                        <form>
+                            <div class="form-group">
+                                <input type="text"
+                                    class="form-control barcode_field" id="barcode"
+                                    t-ref="barcodeField" t-on-input="onBarcodeInput" placeholder="Scan Or Enter Barcode..."/>
+                                <i class="fa fa-sign-in btn-primary o_barcode_kfm_krr_scan" t-on-click="scanBarcode" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KRR -->
+            <div class="row mx-auto" t-if="state.showBarcodeMatchedKRR">
+                <div class="col-lg-offset-3 col-lg-7 col-xs-12 col-md-7 col-md-offset-1 col-sm-offset-3 col-sm-7 mx-auto">
+                    <!-- Display KRR details -->
+                    <h2>Kanban Reordering Rule Details</h2>
+                    <div style="display:flex; margin-bottom:4px;">
+                        <div style="width:140px;"><b>Name:</b></div>
+                        <div><span t-esc="state.krrData.name"/></div>
+                    </div>
+                    <div style="display:flex; margin-bottom:4px;">
+                        <div style="width:140px;"><b>Product:</b></div>
+                        <div><span t-esc="state.krrData.product"/></div>
+                    </div>
+                    <div style="display:flex; margin-bottom:4px;">
+                        <div style="width:140px;"><b>Vendor:</b></div>
+                        <div><span t-esc="state.krrData.vendor"/></div>
+                    </div>
+                    <div style="display:flex;">
+                        <div style="width:140px;"><b>Quantity:</b></div>
+                        <div><span t-esc="state.krrData.quantity"/></div>
+                    </div>
+                    <br />
+                    <div class="mx-5 justify-content-start">
+                        <button type="button" t-on-click="confirmKRR" class="btn btn-primary btn-lg">Confirm</button>
+                        <button type="button" t-on-click="cancelScan" class="btn btn-danger btn-lg mx-4">Cancel</button>
+                    </div>
+                    <!-- Purchase Table -->
+                    <t t-if="state.krrData.purchaseList.length > 0">
+                        <br/><br/>
+                        <h2>Existing Orders</h2>
+                        <table class="sticky-header table table-fixed" style="overflow:auto; height:300px; width:650px; display:block;">
+                            <thead style="position:sticky; top:0; z-index:5; background-color: #d8e1eb;">
+                                <tr>
+                                    <th>Number</th>
+                                    <th>Vendor</th>
+                                    <th>Order Qty</th>
+                                    <th>Qty Received</th>
+                                    <th>Scheduled Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="state.krrData.purchaseList" t-as="purchaseData" t-key="purchaseData.purchase_id">
+                                    <tr>
+                                        <td>
+                                            <a href="#" t-att-data-id="purchaseData.purchase_id" t-on-click="openListRecord">
+                                                <t t-esc="purchaseData.purchase_number"/>
+                                            </a>
+                                        </td>
+                                        <td><t t-esc="purchaseData.purchase_vendor"/></td>
+                                        <td><t t-esc="purchaseData.purchase_qty"/></td>
+                                        <td><t t-esc="purchaseData.received_qty"/></td>
+                                        <td><t t-esc="purchaseData.purchase_scheduled_date"/></td>
+                                        <td><span t-esc="purchaseData.purchase_state"
+                                            class="small badge rounded-pill text-bg-info orders_label_text_align"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+
+                </div>
+            </div>
+            <!-- KRM -->
+            <div class="row mx-auto" t-if="state.showBarcodeMatchedKFM">
+                <div class="col-lg-offset-3 col-lg-7 col-xs-12 col-md-7 col-md-offset-1 col-sm-offset-3 col-sm-7 mx-auto">
+                    <!-- Display KFM details -->
+                    <h2>Kanban Reordering Rule Details</h2>
+
+                    <div style="display:flex; margin-bottom:4px;">
+                        <div style="width:180px;"><b>Product:</b></div>
+                        <div><span t-esc="state.kfmData.product"/></div>
+                    </div>
+
+                    <div style="display:flex; margin-bottom:4px;">
+                        <div style="width:180px;"><b>Source Location:</b></div>
+                        <div><span t-esc="state.kfmData.source_location"/></div>
+                    </div>
+
+                    <div style="display:flex; margin-bottom:4px;">
+                        <div style="width:180px;"><b>Destination Location:</b></div>
+                        <div><span t-esc="state.kfmData.destination_location"/></div>
+                    </div>
+
+                    <div style="display:flex; margin-bottom:4px;">
+                        <div style="width:180px;"><b>Scheduled Date:</b></div>
+                        <div><span t-esc="state.kfmData.schedule_date"/></div>
+                    </div>
+
+                    <div style="display:flex; margin-bottom:4px;">
+                        <div style="width:180px;"><b>Source Document:</b></div>
+                        <div><span t-esc="state.kfmData.name"/></div>
+                    </div>
+
+                    <div style="display:flex;">
+                        <div style="width:180px;"><b>Operation Type:</b></div>
+                        <div><span t-esc="state.kfmData.type"/></div>
+                    </div>
+                    <br/>
+                    <div class="mx-5 justify-content-start">
+                        <button type="button" t-on-click="confirmKFM" class="btn btn-primary btn-lg">Confirm</button>
+                        <button type="button" t-on-click="cancelScan" class="btn btn-danger btn-lg mx-4">Cancel</button>
+                    </div>
+                    <!-- Manufacturing Table -->
+                    <t t-if="state.kfmData.mrpList.length > 0">
+                        <div id="mrp_details"><br/>
+                            <h2 t-if="state.kfmData.type == 'Manufacturing Order'">Existing Manufacturing Details</h2>
+                            <h2 t-if="state.kfmData.type == 'Internal Transfer'">Existing Internal Transfer Details</h2>
+                            <table id='mrp_table' class="table table-fixed" style="overflow:auto; height:300px; width:650px; display:block;">
+                                <thead style="position:sticky; top:0; z-index:5; background-color: #d8e1eb;">
+                                    <tr>
+                                        <th>Number</th>
+                                        <th>Source Location</th>
+                                        <th>Destination Location</th>
+                                        <th>Order Qty</th>
+                                        <th id="schedule_date">Scheduled Date</th>
+                                        <th id="delivery_state">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="state.kfmData.mrpList" t-as="mrpData" t-key="mrpData.id">
+                                        <tr>
+                                            <td>
+                                                <a href="#" t-att-data-id="mrpData.id" t-on-click="openListRecord">
+                                                    <t t-esc="mrpData.mrp_number"/>
+                                                </a>
+                                            </td>
+                                            <td><t t-esc="mrpData.source_location"/></td>
+                                            <td><t t-esc="mrpData.destination_location"/></td>
+                                            <td><t t-esc="mrpData.qty"/></td>
+                                            <td><t t-esc="mrpData.delivery_scheduled_date"/></td>
+                                            <td><span t-esc="mrpData.delivery_status"
+                                                class="small badge rounded-pill text-bg-info orders_label_text_align"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </div>
+            </div>
+            
+            <!-- Receipt -->
+            <div class="row mx-auto" id="barcode_receipt" t-if="state.showBarcodeReceipt">
+                <div class="col-lg-offset-3 col-lg-7 col-xs-12 col-md-7 col-md-offset-1 col-sm-offset-3 col-sm-7 mx-auto" style="margin-top: -80px;">
+                    <h2>Receipt Details</h2>
+                    <b>Source:</b> <span id="receipt_source" t-esc="state.receiptData.receiptSource"></span><br />
+                    <br />
+                    <button type="button" id="confirm_receipt" t-on-click="confirmReceipt" class="btn btn-primary me-2">Confirm</button>
+                    <button type="button" id="cancel_scan" t-on-click="cancelScan" class="btn btn-danger">Cancel</button>
+                    <br /><br />
+                    <!-- Purchase Table -->
+                    <t t-if="state.receiptData.receiptList.length > 0">
+                        <div id="receip_details">
+                            <table id='receipt_table' class="table table-fixed" style="overflow:auto; height:300px; width:600px; display:block;">
+                                <thead>
+                                    <tr>
+                                        <th>Number</th>
+                                        <th>Source Location</th>
+                                        <th>Destination Location</th>
+                                        <th>Scheduled Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="state.receiptData.receiptList" t-as="receiptData" t-key="receiptData.receipt_id">
+                                        <tr>
+                                            <td>
+                                                <a href="#" t-att-data-id="receiptData.receipt_id" t-on-click="openListRecord">
+                                                    <t t-esc="receiptData.name"/>
+                                                </a>
+                                            </td>
+                                            <td><t t-esc="receiptData.source_location"/></td>
+                                            <td><t t-esc="receiptData.destination_location"/></td>
+                                            <td><t t-esc="receiptData.schedule_date"/></td>
+                                            <td><t t-esc="receiptData.state"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

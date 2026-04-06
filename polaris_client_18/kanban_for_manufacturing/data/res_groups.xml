@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    # TODO: need to copy this file for another module-->
+    <!--    Note: If you will copy this file for other module, so make sure change the module name and group name, also add the group in menus-->
+    <data noupdate="0">
+        <record model="res.groups" id="group_kanban_manufacturing_user">
+            <field name="name">Show Full Kanban For Manufacturing Features</field>
+            <field name="category_id" ref="base.module_category_usability" />
+        </record>
+        <record model="res.groups" id="group_kanban_scan_mo_user">
+            <field name="name">Show Full Kanban For Scan and MO Features</field>
+            <field name="category_id" ref="base.module_category_usability" />
+        </record>
+    </data>
+</odoo>

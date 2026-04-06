@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="polaris_manage_api_key_ir_cron_view_form" model="ir.ui.view">
+        <field name="name">polaris.manage.api.key.ir.cron.view.form</field>
+        <field name="model">ir.cron</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="base.view_server_action_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='model_id']" position="after">
+                <field name="is_polaris_custom_cron" />
+            </xpath>
+            <xpath expr="//group[@name='action_content']" position="replace">
+            </xpath>
+        </field>
+    </record>
+</odoo>

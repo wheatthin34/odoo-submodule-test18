@@ -1,0 +1,67 @@
+<odoo>
+    <data>
+        <template id="report_mrp_reordering_rule_barcode_label">
+            <t t-call="web.basic_layout">
+                <t t-set="kfm" t-value="kfm" />
+                <div class="page" style="margin-left:-28px; margin-right:-28px; margin-top:15px;">
+                    <div class="oe_structure" />
+                    <table width="100%" class="table-bordered">
+                        <tr>
+                            <td align="center" style="width:50%;font-size:8pt;font-weight:600;" colspan="2">
+                                <span t-field="kfm.product_id.default_code" />
+                            </td>
+                            <td align="center" style="font-size:10pt;font-weight:300;">
+                                <span t-field="kfm.reorder_quantity" />
+                                <span t-field="kfm.product_id.uom_id" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="width:50%;font-size:5pt;" colspan="3">
+                                <span t-field="kfm.product_id.name" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="width:50%;font-size:5pt;" colspan="2">
+                                <span t-field="kfm.source_location" />
+                            </td>
+                            <td align="center" style="width:50%;font-size:5pt;">
+                                <span t-field="kfm.destination_location" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="font-size:5pt;" colspan="1">
+                                <span t-field="kfm.card" /> of
+                                <span t-field="kfm.card_count" />
+                            </td>
+                            <td align="center" style="font-size:5pt;text-align: center; vertical-align: middle;" colspan="1">
+                                <span t-field="kfm.name" />
+                            </td>
+                            <td align="center" style="font-size:5pt;" colspan="1">
+                                Min:
+                                <span t-field="kfm.minimum_quantity" />
+                                <span t-field="kfm.product_id.uom_id" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; vertical-align: middle;" colspan="3">
+                                <div style="margin-top:5px;">
+                                    <img t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', kfm.barcode,600, 150)" style="width:100%;height:45%;" />
+                                </div>
+                                <div align="center" style="font-size:5pt;">
+                                    <span t-field="kfm.barcode" />
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </template>
+        <template id="report_mrp_reordering_rule_barcode">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="kfm">
+                    <t t-call="kanban_for_manufacturing.report_mrp_reordering_rule_barcode_label" />
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,32 @@
+<odoo>
+    <data noupdate="0">
+        <!-- Sequences for Kanban Reordering Name -->
+        <record id="seq_kanban_reordering_name" model="ir.sequence">
+            <field name="name">Kanban Reordering Name</field>
+            <field name="code">kanban.reordering.name</field>
+            <field name="prefix">KRR</field>
+            <field name="padding">5</field>
+        </record>
+        <!-- Sequences for Kanban Reordering Barcode -->
+        <record id="seq_kanban_reordering_barcode" model="ir.sequence">
+            <field name="name">Kanban Reordering Barcode</field>
+            <field name="code">kanban.reordering.barcode</field>
+            <field name="prefix">BARC</field>
+            <field name="padding">5</field>
+        </record>
+        <!-- Sequences for Kanban From Manufacturing Name -->
+        <record id="sequence_mrp_kanban_reordering" model="ir.sequence">
+            <field name="name">Mrp Kanban Reordering Name</field>
+            <field name="code">mrp.kanban.reordering.name</field>
+            <field name="prefix">KFM</field>
+            <field name="padding">5</field>
+        </record>
+        <!-- Sequences for Kanban From Manufacturing Barcode -->
+        <record id="sequence_mrp_kanban_reordering_barcode" model="ir.sequence">
+            <field name="name">MrpKanban Reordering Barcode</field>
+            <field name="code">mrp.kanban.reordering.barcode</field>
+            <field name="prefix">MFG</field>
+            <field name="padding">5</field>
+        </record>
+    </data>
+</odoo>

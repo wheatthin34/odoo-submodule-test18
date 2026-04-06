@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id='view_manage_module_api_key_tree' model='ir.ui.view'>
+            <field name='name'>manage.module.api.key.tree</field>
+            <field name='model'>manage.module.api.key</field>
+            <field name='arch' type='xml'>
+                <list create="0" editable="bottom">
+                    <field name="name" required="1" />
+                    <field name="api_key" />
+                    <field name="remaining_days" />
+                    <button name="validate_api_details" type="object"
+                            string="Validate API Key" class="btn-primary"
+                            help="Validate API Key" />
+                    <button name="action_renew_subscription" type="object"
+                            string="Renew" class="btn-primary"
+                            help="Renew"  invisible="api_status != 'expired'"/>
+                    <field name="api_status"
+                           decoration-success="api_status == 'active'"
+                           decoration-danger="api_status == 'expired'" />
+                </list>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="manage_module_api_key_action">
+            <field name="name">Manage API Key</field>
+            <field name="res_model">manage.module.api.key</field>
+            <field name="view_mode">list</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">No API Keys configured</p>
+            </field>
+        </record>
+
+        <menuitem id="subscription_configuration_menuitem"
+                  name="Subscription Configuration"
+                  parent="base.menu_custom"
+                  sequence="20" />
+        <menuitem id='manage_module_api_key_menu'
+                  name='Manage API Key'
+                  parent='subscription_configuration_menuitem'
+                  action='manage_module_api_key_action' />
+    </data>
+</odoo>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="inherit_warehouse_form_for_kanban_scan">
+        <field name="name">stock.warehouse.form.inherit</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse"/>
+        <field name="arch" type="xml">
+
+            <!-- Remove groups from notebook -->
+            <xpath expr="//notebook" position="attributes">
+                <attribute name="groups"></attribute>
+            </xpath>
+
+            <!-- Move groups restriction down to each existing page -->
+            <xpath expr="//page[@name='warehouse_config']" position="attributes">
+                <attribute name="groups">stock.group_adv_location,stock.group_stock_multi_warehouses</attribute>
+            </xpath>
+
+            <xpath expr="//page[@name='technical_info']" position="attributes">
+                <attribute name="groups">stock.group_adv_location,stock.group_stock_multi_warehouses</attribute>
+            </xpath>
+
+            <!-- Add your Kanban page inside (no groups = always visible) -->
+            <xpath expr="//notebook" position="inside">
+                <page name="kanban_settings" string="Kanban">
+                    <group>
+                        <group>
+                            <field name="internal_transfer_kanban_id"
+                                options="{'no_open': True, 'no_create': True}"
+                                domain='[("code","=","internal")]'/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

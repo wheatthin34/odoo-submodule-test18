@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_delivery_document_inherit" inherit_id="stock.report_delivery_document">
+        <xpath expr="//table[@name='stock_move_table']/thead/tr" position="inside">
+            <t t-if="o.picking_type_code == 'outgoing'">
+                <th>
+                    <strong>Receipt</strong>
+                </th>
+                <th>
+                    <strong>Receipt Barcode</strong>
+                </th>
+            </t>
+        </xpath>
+        <xpath expr="//table[@name='stock_move_table']/tbody/tr" position="inside">
+            <td>
+                <t t-if="o.picking_type_code == 'outgoing'">
+                    <span t-out="', '.join(map(lambda x: x.name, move.stock_picking_ids))" />
+                </t>
+                <t t-if="o.picking_type_code == 'outgoing'">
+                <td t-foreach="move.stock_picking_ids" t-as="receipt">
+                    <span t-out="receipt" />
+                    <img t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', receipt, 600, 120)" style="max-height:50pt;max-width:100%;" align="center" />
+                </td>
+                </t>
+            </td>
+        </xpath>
+        <xpath expr="//table[@name='stock_move_line_table']/thead/tr" position="inside">
+            <t t-if="o.picking_type_code == 'outgoing'">
+                <th>
+                    <strong>Receipt</strong>
+                </th>
+                <th>
+                    <strong>Receipt Barcode</strong>
+                </th>
+            </t>
+        </xpath>
+        <xpath expr="//table[@name='stock_move_line_table']/tbody//tr" position="inside">
+            <t t-if="o.picking_type_code == 'outgoing'">
+                <td>
+                    <span t-out="', '.join(receipt for receipt in move_line.get_picking())" />
+                </td>
+            </t>
+            <t t-if="o.picking_type_code == 'outgoing'">
+                <td t-foreach="move_line.get_picking()" t-as="receipt">
+                    <span t-out="receipt" />
+                    <img t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', receipt, 600, 120)" style="max-height:50pt;max-width:100%;" align="center" />
+                </td>
+            </t>
+        </xpath>
+    </template>
+</odoo>

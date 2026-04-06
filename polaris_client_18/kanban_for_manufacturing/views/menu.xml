@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Kanban Top Menu-->
+    <menuitem id="kanban_main_menu" name="Kanban" parent="stock.menu_stock_root" sequence="5" />
+    <menuitem id="kanban_supply_chain_menu" name="Kanban for Supply Chain" parent="kanban_main_menu" sequence="1" />
+    <!-- Kanban Reordering Menu-->
+    <menuitem id="kanban_reordering_menu" name="Kanban for Supply Chain Cards" parent="kanban_supply_chain_menu" action="kanban_for_manufacturing.action_kanban_reordering" sequence="2" />
+    <menuitem name="Kanban for Manufacturing" id="kanban_manufacture_new_menu" parent="kanban_main_menu" sequence="2" />
+    <menuitem name="Kanban for Manufacturing Cards" id="kanban_cards_new_menu" parent="kanban_manufacture_new_menu" action="kanban_for_manufacturing.action_mrp_kanban_reordering" sequence="2" />
+</odoo>

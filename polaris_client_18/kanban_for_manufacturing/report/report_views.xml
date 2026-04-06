@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Paperformat for KFM report -->
+        <record id="paperformat_kfm_barcode_report" model="report.paperformat">
+            <field name="name">DYMO 30334 kfm</field>
+            <field name="format">custom</field>
+            <field name="page_height">31</field>
+            <field name="page_width">57</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">1</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">96</field>
+        </record>
+        <record id="action_mrp_report_reordering_rule_barcode" model="ir.actions.report">
+            <field name="name">Kanban MRP Barcode</field>
+            <field name="model">mrp.kanban.reordering</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">kanban_for_manufacturing.report_mrp_reordering_rule_barcode</field>
+            <field name="report_file">kanban_for_manufacturing.report_mrp_reordering_rule_barcode</field>
+            <field name="binding_model_id" ref="model_mrp_kanban_reordering"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="kanban_for_manufacturing.paperformat_kfm_barcode_report"/>
+        </record>
+        <!-- Paperformat for KRR report -->
+        <record id="paperformat_krr_barcode_report" model="report.paperformat">
+            <field name="name">DYMO 30334 KRR</field>
+            <field name="format">custom</field>
+            <field name="page_height">31</field>
+            <field name="page_width">57</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">1</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">15</field>
+            <field name="dpi">96</field>
+        </record>
+        <record id="action_report_reordering_rule_barcode" model="ir.actions.report">
+            <field name="name">Reordering Rule Barcode</field>
+            <field name="model">kanban.reordering</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">kanban_for_manufacturing.report_reordering_rule_barcode</field>
+            <field name="report_file">kanban_for_manufacturing.report_reordering_rule_barcode</field>
+            <field name="binding_model_id" ref="model_kanban_reordering"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="kanban_for_manufacturing.paperformat_krr_barcode_report"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<!--    # TODO: need to copy this file for another module-->
+<!--    Note: If you will copy this file for other module, so make sure change the module name and group name-->
+    <data noupdate="1">
+        <record model="manage.module.api.key" id="validate_api" forcecreate="False">
+            <field name="name">kanban_for_manufacturing</field>
+        </record>
+    </data>
+</odoo>

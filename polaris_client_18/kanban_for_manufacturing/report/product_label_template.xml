@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_picking_productlabel">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <t t-foreach="doc.move_ids" t-as="lines">
+                        <t t-set="product" t-value="lines.product_id"/>
+                        <div class="col-12" style="padding:0;">
+                            <table class="table">
+                                <thead>
+                                    <tr border="0" style="width:100%;">
+                                        <td style="width: 100%;text-align: center;padding:0;">
+                                            <t t-if="product.default_code" style="font-size:10px;margin:0px;">
+                                               <strong style="font-weight:600;margin:0px;font-size:28px;" t-field="product.default_code"/>
+                                            </t><br>"<span t-field="product.name"/></br>"
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody style="border-top:0;">
+                                    <tr border="0" style="font-size:0px;padding:0 !important;width: 100%;">
+                                        <td style="font-size:12px;text-align: center; margin-bottom:0px;cellpadding=0px">
+                                            <span t-foreach="product.seller_ids" t-as="seller">
+                                                <span t-if="seller.product_code" t-out="(seller.product_code + ' - ' + seller.display_name)[:40]" style="padding-right:0px; font-weight:600;"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr style="width:100%;">
+                                        <td style="width:100%;text-align:center;">
+                                            <div><img t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', product.default_code , 600, 100)" style="width:300px;height:40px;"/></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

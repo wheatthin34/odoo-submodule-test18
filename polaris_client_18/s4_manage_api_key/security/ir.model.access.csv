@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_manage_module_api_key_user,access.manage.module.api.key.user,model_manage_module_api_key,,1,1,0,0

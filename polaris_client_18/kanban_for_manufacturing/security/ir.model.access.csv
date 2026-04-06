@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mrp_kanban_reordering,access_mrp_kanban_reordering,model_mrp_kanban_reordering,,1,1,1,1
+access_kanban_reordering_purchase_user,access.kanban.reordering.purchase.user,model_kanban_reordering,,1,1,1,0
+access_kanban_reordering_purchase_manager,access.kanban.reordering.purchase.manager,model_kanban_reordering,,1,1,1,1

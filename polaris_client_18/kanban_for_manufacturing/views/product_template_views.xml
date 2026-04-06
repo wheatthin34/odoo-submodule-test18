@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_template_only_form_view_inherit" model="ir.ui.view">
+            <field name="name">product.template.product.form</field>
+            <field name="model">product.template</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="priority" eval="22"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='general_information']" position="after">
+                    <page string="Kanban" name="kanban">
+                        <!-- Kanban for Manufacturing -->
+                        <separator string="Kanban for Manufacturing"/>
+                        <field name="kfm_ids" widget="one2many" context="{'kfm_product_id' : id}">
+                            <form string="KFM Items">
+                                <sheet>
+                                    <div class="oe_title">
+                                        <h1>
+                                            <field name="name"/>
+                                        </h1>
+                                    </div>
+                                    <group>
+                                        <group>
+                                            <field name="type" required="1"/>
+                                            <field name="create_delivery_scan" invisible="type != 'inter_warehouse'"/>
+                                            <field name="create_transfer_scan" invisible="type != 'internal_transfer'"/>
+                                            <field name="product_id" context="{'type': type}"
+                                                options="{'no_open': True, 'no_create': True}" required="1"/>
+                                            <field name="product_tmpl_id" invisible="1"/>
+                                            <field name="reorder_quantity" required="1"/>
+                                            <field name="minimum_quantity"/>
+                                            <field name="source_location"
+                                                options="{'no_open': True, 'no_create': True}"
+                                                domain="[('usage','=','internal')]"
+                                                invisible="type not in ['internal_transfer','physical','inter_warehouse']"
+                                                required="type in ['internal_transfer','physical','inter_warehouse']"/>
+                                            <field name="destination_location"
+                                                options="{'no_open': True, 'no_create': True}"
+                                                domain="[('usage','=','internal')]"
+                                                invisible="type not in ['internal_transfer','physical','inter_warehouse']"
+                                                required="type in ['internal_transfer','physical','inter_warehouse']"/>
+                                        </group>
+                                        <group>
+                                            <field name="barcode" readonly="1"/>
+                                            <field name="card"/>
+                                            <field name="card_count"/>
+                                            <field name="tracking" invisible="1"/>
+                                            <field name="validate_transfer_on_scan"
+                                                invisible="type != 'internal_transfer' or (tracking in ('lot', 'serial') or not product_id)"/>
+                                            <field name="routes_id" invisible="type != 'inter_warehouse'"
+                                                required="1" options="{'no_open': True, 'no_create': True}"
+                                                domain="[('product_selectable', '=', True)]"/>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                        <!-- Kanban for Supply Chain -->
+                        <separator string="Kanban for Supply Chain"/>
+                        <field name="krr_ids" widget="one2many" context="{'krr_product_id' : id}">
+                            <form string="KRR Items">
+                                <sheet>
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="product_id"/>
+                                            <field name="product_tmpl_id"
+                                                invisible="1"
+                                                context="{'product_tmpl_id': id}"/>
+                                            <field name="pricelist_id"
+                                                context="{'kanban_pricelist':product_id}"
+                                                options="{'no_create': True}"/>
+                                            <field name="reorder_qty"/>
+                                            <field name="minimum_qty"/>
+                                        </group>
+                                        <group>
+                                            <field name="automatic_confirm"/>
+                                            <field name="barcode"/>
+                                            <field name="target_location_id"/>
+                                            <field name="card"/>
+                                            <field name="card_count"/>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,67 @@
+<odoo>
+    <data>
+        <template id="report_reordering_rule_barcode_label">
+            <t t-call="web.basic_layout">
+                <t t-set="krr" t-value="krr" />
+                <div class="page" style="margin-left:-28px; margin-right:-28px; margin-top:15px;">
+                    <div class="oe_structure" />
+                    <table width="100%" class="table-bordered">
+                        <tr>
+                            <td align="center" style="width:30%;font-size:8pt;font-weight:600;" colspan="2">
+                                <span t-field="krr.product_id.default_code" />
+                            </td>
+                            <td align="center" style="font-size:10pt;font-weight:300;">
+                                <span t-field="krr.reorder_qty" />
+                                <span t-field="krr.product_id.uom_po_id" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="width:50%;font-size:6pt;" colspan="3">
+                                <span t-out="(krr.product_id.name + ' - ' + krr.pricelist_id.partner_id.name)[:35]" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="width:50%;font-size:5pt;" colspan="2">
+                                <span t-field="krr.target_location_id" />
+                            </td>
+                            <td align="center" style="font-size:6pt;">
+                                <span t-field="krr.pricelist_id.product_code" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="font-size:6pt;" colspan="1">
+                                <span t-field="krr.card" /> of
+                                <span t-field="krr.card_count" />
+                            </td>
+                            <td align="center" style="font-size:7pt;text-align: center; vertical-align: middle;" colspan="1">
+                                <span t-field="krr.name" />
+                            </td>
+                            <td align="center" style="font-size:6pt;" colspan="1">
+                                Min:
+                                <span t-field="krr.minimum_qty" />
+                                <span t-field="krr.product_id.uom_po_id" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; vertical-align: middle;" colspan="3">
+                                <div style="margin-top:5px;">
+                                    <img t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', krr.barcode,600, 150)" style="width:100%;height:45%;" />
+                                </div>
+                                <div align="center" style="font-size:6pt;">
+                                    <span t-field="krr.barcode" />
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </template>
+        <template id="report_reordering_rule_barcode">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="krr">
+                    <t t-call="kanban_for_manufacturing.report_reordering_rule_barcode_label" />
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

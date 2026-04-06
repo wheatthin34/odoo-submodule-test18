@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Kanban Top Menu-->
+    <record id="action_mrp_reordering_kanban_scan" model="ir.actions.client">
+        <field name="name">Kanban</field>
+        <field name="tag">mrp_reordering_kanban</field>
+    </record>
+    <menuitem id="menu_kanban_scan_root" name="Place Order" sequence="11" web_icon="kanban_scan,static/src/img/icon.png"/>
+    <menuitem id="menu_mrp_reordering_kanban_scan" name="Scan Kanban" parent="menu_kanban_scan_root" action="action_mrp_reordering_kanban_scan" sequence="6"/>
+</odoo>
