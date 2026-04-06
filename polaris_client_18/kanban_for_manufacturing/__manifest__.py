@@ -15,7 +15,7 @@
         "mrp",
         "stock",
         "purchase",
-        "polaris_manage_api_key"
+        "s4_manage_api_key"
     ],
     "data": [
         "security/ir.model.access.csv",
